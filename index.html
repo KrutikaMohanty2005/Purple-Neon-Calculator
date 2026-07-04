@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#7b2cbf">
-    <meta name="description" content="Purple Neon Calculator - A sleek calculator with scientific mode, themes, and keyboard support">
+    <meta name="description" content="Purple Neon Calculator - A sleek calculator with scientific mode, currency converter, themes, and keyboard support">
     <title>Krutika Calculator</title>
     <link rel="manifest" href="manifest.json">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
@@ -18,8 +18,9 @@
     <div class="app">
         <div class="calculator">
             <div class="header">
-                <h1>CALCULATOR</h1>
+                <h1 id="modeTitle">CALCULATOR</h1>
                 <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleCurrency()" title="Currency Converter">&#36;</button>
                     <button class="icon-btn" onclick="toggleTheme()" title="Change Theme">&#127912;</button>
                     <button class="icon-btn" onclick="toggleScientific()" title="Scientific Mode">&#130;f(x)</button>
                     <button class="icon-btn" onclick="toggleHistory()" title="History">&#128337;</button>
@@ -48,9 +49,54 @@
                 <button onclick="appendValue('**')">^</button>
             </div>
 
+            <!-- Currency Panel -->
+            <div class="currency-panel" id="currencyPanel">
+                <div class="currency-row">
+                    <input type="number" id="currencyAmount" placeholder="Amount" value="1">
+                    <select id="currencyFrom">
+                        <option value="USD">USD</option>
+                        <option value="INR" selected>INR</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                        <option value="AUD">AUD</option>
+                        <option value="CNY">CNY</option>
+                        <option value="KRW">KRW</option>
+                        <option value="AED">AED</option>
+                        <option value="SAR">SAR</option>
+                        <option value="SGD">SGD</option>
+                        <option value="CHF">CHF</option>
+                        <option value="NZD">NZD</option>
+                    </select>
+                </div>
+                <button class="swap-btn" onclick="swapCurrencies()">&#8645;</button>
+                <div class="currency-row">
+                    <input type="text" id="currencyResult" readonly placeholder="Result">
+                    <select id="currencyTo">
+                        <option value="USD" selected>USD</option>
+                        <option value="INR">INR</option>
+                        <option value="EUR">EUR</option>
+                        <option value="GBP">GBP</option>
+                        <option value="JPY">JPY</option>
+                        <option value="CAD">CAD</option>
+                        <option value="AUD">AUD</option>
+                        <option value="CNY">CNY</option>
+                        <option value="KRW">KRW</option>
+                        <option value="AED">AED</option>
+                        <option value="SAR">SAR</option>
+                        <option value="SGD">SGD</option>
+                        <option value="CHF">CHF</option>
+                        <option value="NZD">NZD</option>
+                    </select>
+                </div>
+                <button class="convert-btn" onclick="convertCurrency()">Convert</button>
+                <p class="rate-info" id="rateInfo">Rates update automatically</p>
+            </div>
+
             <input type="text" id="display" readonly placeholder="0" onclick="copyResult()">
 
-            <div class="buttons">
+            <div class="buttons" id="calcButtons">
                 <button class="clear" onclick="allClear()">AC</button>
                 <button class="clear" onclick="deleteLast()">DEL</button>
                 <button class="operator" onclick="appendValue('%')">%</button>

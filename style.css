@@ -469,7 +469,103 @@ button:active {
         font-size: 17px;
     }
 
-    #display {
+/* Currency Panel */
+.currency-panel {
+    display: none;
+    gap: 10px;
+    margin-bottom: 12px;
+    animation: slideDown 0.3s ease;
+}
+
+.currency-panel.open {
+    display: flex;
+    flex-direction: column;
+}
+
+.currency-row {
+    display: flex;
+    gap: 8px;
+}
+
+.currency-row input,
+.currency-row select {
+    height: 42px;
+    border: none;
+    border-radius: 10px;
+    padding: 0 12px;
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.currency-row input {
+    flex: 1;
+    background: #111;
+    color: white;
+    text-align: right;
+    min-width: 0;
+}
+
+.currency-row input::placeholder {
+    color: #555;
+}
+
+.currency-row select {
+    width: 85px;
+    background: rgba(178, 102, 255, 0.15);
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: bold;
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c77dff'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 8px center;
+}
+
+.swap-btn {
+    align-self: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    font-size: 18px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.swap-btn:hover {
+    background: var(--primary-hover);
+    transform: rotate(180deg);
+}
+
+.convert-btn {
+    height: 42px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: black;
+    transition: 0.3s;
+}
+
+.convert-btn:hover {
+    background: linear-gradient(135deg, var(--accent-hover), var(--accent));
+    transform: translateY(-2px);
+}
+
+.rate-info {
+    text-align: center;
+    color: #444;
+    font-size: 11px;
+}
+
+#display {
         font-size: 24px;
         height: 60px;
     }

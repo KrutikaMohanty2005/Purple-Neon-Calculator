@@ -3,11 +3,15 @@ const historyList = document.getElementById("historyList");
 const historyPanel = document.getElementById("historyPanel");
 const themePicker = document.getElementById("themePicker");
 const scientificPanel = document.getElementById("scientificPanel");
+const currencyPanel = document.getElementById("currencyPanel");
 const toast = document.getElementById("toast");
+const modeTitle = document.getElementById("modeTitle");
 
 let history = JSON.parse(localStorage.getItem("calcHistory")) || [];
 let lastResult = null;
 let audioCtx = null;
+let rates = {};
+let currencyOpen = false;
 
 // Sound
 function playSound() {
@@ -128,6 +132,65 @@ function toggleHistory() {
     historyPanel.classList.toggle("open");
     themePicker.classList.remove("open");
     scientificPanel.classList.remove("open");
+    if (currencyPanel.classList.contains("open")) toggleCurrency();
+}
+
+// Currency
+function toggleCurrency() {
+    playSound();
+    currencyPanel.classList.toggle("open");
+    themePicker.classList.remove("open");
+    scientificPanel.classList.remove("open");
+    historyPanel.classList.remove("open");
+    currencyOpen = currencyPanel.classList.contains("open");
+    modeTitle.textContent = currencyOpen ? "CURRENCY CONVERTER" : "CALCULATOR";
+    if (currencyOpen && Object.keys(rates).length === 0) fetchRates();
+}
+
+function swapCurrencies() {
+    playSound();
+    const from = document.getElementById("currencyFrom");
+    const to = document.getElementById("currencyTo");
+    const temp = from.value;
+    from.value = to.value;
+    to.value = temp;
+    convertCurrency();
+}
+
+async function fetchRates() {
+    try {
+        const res = await fetch("https://api.exchangerate-api.com/v4/latest/USD");
+        const data = await res.json();
+        rates = data.rates;
+        document.getElementById("rateInfo").textContent = "Rates updated: " + new Date().toLocaleDateString();
+    } catch {
+        document.getElementById("rateInfo").textContent = "Failed to fetch rates";
+    }
+}
+
+function convertCurrency() {
+    playSound();
+    const amount = parseFloat(document.getElementById("currencyAmount").value);
+    const from = document.getElementById("currencyFrom").value;
+    const to = document.getElementById("currencyTo").value;
+    const resultField = document.getElementById("currencyResult");
+
+    if (isNaN(amount) || amount === 0) {
+        resultField.value = "Enter amount";
+        return;
+    }
+
+    if (Object.keys(rates).length === 0) {
+        resultField.value = "Loading rates...";
+        fetchRates().then(() => convertCurrency());
+        return;
+    }
+
+    const inUSD = amount / rates[from];
+    const result = inUSD * rates[to];
+    resultField.value = result.toFixed(2) + " " + to;
+
+    addToHistory(`${amount} ${from} → ${to}`, result.toFixed(2));
 }
 
 // Theme
@@ -136,6 +199,7 @@ function toggleTheme() {
     themePicker.classList.toggle("open");
     scientificPanel.classList.remove("open");
     historyPanel.classList.remove("open");
+    if (currencyPanel.classList.contains("open")) toggleCurrency();
 }
 
 function setTheme(theme) {
@@ -152,6 +216,7 @@ function toggleScientific() {
     scientificPanel.classList.toggle("open");
     themePicker.classList.remove("open");
     historyPanel.classList.remove("open");
+    if (currencyPanel.classList.contains("open")) toggleCurrency();
 }
 
 // Copy
