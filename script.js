@@ -129,10 +129,11 @@ function clearHistory() {
 
 function toggleHistory() {
     playSound();
-    historyPanel.classList.toggle("open");
     themePicker.classList.remove("open");
     scientificPanel.classList.remove("open");
-    if (currencyPanel.classList.contains("open")) toggleCurrency();
+    currencyPanel.classList.remove("open");
+    currencyOpen = false;
+    historyPanel.classList.toggle("open");
 }
 
 // Currency
