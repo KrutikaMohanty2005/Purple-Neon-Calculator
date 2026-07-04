@@ -1,12 +1,34 @@
 const display = document.getElementById("display");
 const historyList = document.getElementById("historyList");
 const historyPanel = document.getElementById("historyPanel");
+const themePicker = document.getElementById("themePicker");
+const scientificPanel = document.getElementById("scientificPanel");
+const toast = document.getElementById("toast");
+
 let history = JSON.parse(localStorage.getItem("calcHistory")) || [];
 let lastResult = null;
+let audioCtx = null;
+
+// Sound
+function playSound() {
+    try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.frequency.value = 800;
+        gain.gain.value = 0.05;
+        osc.start();
+        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+        osc.stop(audioCtx.currentTime + 0.08);
+    } catch {}
+}
 
 function appendValue(value) {
+    playSound();
     if (display.value === "Error") display.value = "";
-    if (lastResult !== null && !["+", "-", "*", "/", "%"].includes(value) && value !== "." && display.value === String(lastResult)) {
+    if (lastResult !== null && !["+", "-", "*", "/", "%", "("].includes(value) && value !== "." && display.value === String(lastResult)) {
         display.value = "";
     }
     lastResult = null;
@@ -19,7 +41,7 @@ function appendValue(value) {
         return;
     }
 
-    if (value === "." && current.split(/[\+\-\*\/\%]/).pop().includes(".")) return;
+    if (value === "." && current.split(/[\+\-\*\/\%\(]/).pop().includes(".")) return;
 
     if (value === "00" && (current === "" || ["+", "-", "*", "/", "%"].includes(lastChar))) return;
 
@@ -27,23 +49,32 @@ function appendValue(value) {
 }
 
 function allClear() {
+    playSound();
     display.value = "";
     lastResult = null;
 }
 
 function deleteLast() {
+    playSound();
     if (display.value === "Error") { allClear(); return; }
     display.value = display.value.slice(0, -1);
 }
 
+function evaluateExpression(expr) {
+    expr = expr.replace(/(\d+\.?\d*)%/g, "($1/100)");
+    expr = expr.replace(/sin\(([^)]+)\)/g, "Math.sin($1*Math.PI/180)");
+    expr = expr.replace(/cos\(([^)]+)\)/g, "Math.cos($1*Math.PI/180)");
+    expr = expr.replace(/tan\(([^)]+)\)/g, "Math.tan($1*Math.PI/180)");
+    return Function('"use strict"; return (' + expr + ')')();
+}
+
 function calculate() {
+    playSound();
     try {
         let expr = display.value;
         if (!expr) return;
 
-        expr = expr.replace(/(\d+\.?\d*)%/g, "($1/100)");
-
-        const result = Function('"use strict"; return (' + expr + ')')();
+        const result = evaluateExpression(expr);
 
         if (!isFinite(result)) {
             display.value = "Error";
@@ -79,21 +110,67 @@ function renderHistory() {
 }
 
 function useHistory(index) {
+    playSound();
     display.value = String(history[index].result);
     lastResult = history[index].result;
     if (window.innerWidth <= 600) historyPanel.classList.remove("open");
 }
 
 function clearHistory() {
+    playSound();
     history = [];
     localStorage.removeItem("calcHistory");
     renderHistory();
 }
 
 function toggleHistory() {
+    playSound();
     historyPanel.classList.toggle("open");
+    themePicker.classList.remove("open");
+    scientificPanel.classList.remove("open");
 }
 
+// Theme
+function toggleTheme() {
+    playSound();
+    themePicker.classList.toggle("open");
+    scientificPanel.classList.remove("open");
+    historyPanel.classList.remove("open");
+}
+
+function setTheme(theme) {
+    playSound();
+    document.body.setAttribute("data-theme", theme);
+    localStorage.setItem("calcTheme", theme);
+    document.querySelectorAll(".theme-dot").forEach(d => d.classList.remove("active"));
+    document.querySelector(`.theme-dot.${theme}`).classList.add("active");
+}
+
+// Scientific
+function toggleScientific() {
+    playSound();
+    scientificPanel.classList.toggle("open");
+    themePicker.classList.remove("open");
+    historyPanel.classList.remove("open");
+}
+
+// Copy
+function copyResult() {
+    if (!display.value || display.value === "Error") return;
+    navigator.clipboard.writeText(display.value).then(() => {
+        showToast("Copied!");
+    }).catch(() => {
+        showToast("Failed to copy");
+    });
+}
+
+function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add("show");
+    setTimeout(() => toast.classList.remove("show"), 1500);
+}
+
+// Keyboard
 document.addEventListener("keydown", (e) => {
     if (e.key >= "0" && e.key <= "9") appendValue(e.key);
     else if (["+", "-", "*", "/"].includes(e.key)) appendValue(e.key);
@@ -104,4 +181,14 @@ document.addEventListener("keydown", (e) => {
     else if (e.key === "Escape" || e.key === "Delete") allClear();
 });
 
+// Load saved theme
+const savedTheme = localStorage.getItem("calcTheme") || "purple";
+document.body.setAttribute("data-theme", savedTheme);
+document.querySelector(`.theme-dot.${savedTheme}`)?.classList.add("active");
+
 renderHistory();
+
+// PWA
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js").catch(() => {});
+}

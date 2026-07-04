@@ -5,21 +5,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#7b2cbf">
+    <meta name="description" content="Purple Neon Calculator - A sleek calculator with scientific mode, themes, and keyboard support">
     <title>Krutika Calculator</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧮</text></svg>">
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body data-theme="purple">
 
     <div class="app">
         <div class="calculator">
             <div class="header">
                 <h1>CALCULATOR</h1>
-                <button class="history-toggle" onclick="toggleHistory()" title="History">&#128337;</button>
+                <div class="header-actions">
+                    <button class="icon-btn" onclick="toggleTheme()" title="Change Theme">&#127912;</button>
+                    <button class="icon-btn" onclick="toggleScientific()" title="Scientific Mode">&#130;f(x)</button>
+                    <button class="icon-btn" onclick="toggleHistory()" title="History">&#128337;</button>
+                </div>
             </div>
             <p class="author">Created by Krutika Mohanty</p>
 
-            <input type="text" id="display" readonly placeholder="0">
+            <div class="theme-picker" id="themePicker">
+                <button class="theme-dot purple active" onclick="setTheme('purple')" title="Purple"></button>
+                <button class="theme-dot blue" onclick="setTheme('blue')" title="Blue"></button>
+                <button class="theme-dot green" onclick="setTheme('green')" title="Green"></button>
+                <button class="theme-dot pink" onclick="setTheme('pink')" title="Pink"></button>
+                <button class="theme-dot red" onclick="setTheme('red')" title="Red"></button>
+            </div>
+
+            <div class="scientific-panel" id="scientificPanel">
+                <button onclick="appendValue('sin(')">sin</button>
+                <button onclick="appendValue('cos(')">cos</button>
+                <button onclick="appendValue('tan(')">tan</button>
+                <button onclick="appendValue('Math.log(')">ln</button>
+                <button onclick="appendValue('Math.log10(')">log</button>
+                <button onclick="appendValue('Math.sqrt(')">√</button>
+                <button onclick="appendValue('Math.pow(')">x^y</button>
+                <button onclick="appendValue('Math.PI')">π</button>
+                <button onclick="appendValue('Math.E')">e</button>
+                <button onclick="appendValue('**')">^</button>
+            </div>
+
+            <input type="text" id="display" readonly placeholder="0" onclick="copyResult()">
 
             <div class="buttons">
                 <button class="clear" onclick="allClear()">AC</button>
@@ -48,7 +77,7 @@
                 <button class="equal" onclick="calculate()">=</button>
             </div>
 
-            <p class="keyboard-hint">Keyboard supported</p>
+            <p class="keyboard-hint">Keyboard supported | Tap display to copy</p>
         </div>
 
         <div class="history-panel" id="historyPanel">
@@ -61,6 +90,8 @@
             </div>
         </div>
     </div>
+
+    <div class="toast" id="toast">Copied!</div>
 
     <script src="script.js"></script>
 
