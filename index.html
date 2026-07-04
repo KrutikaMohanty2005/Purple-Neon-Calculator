@@ -11,39 +11,54 @@
 
 <body>
 
-    <div class="calculator">
-        <h1>CALCULATOR</h1>
-        <p class="author">Created by Krutika Mohanty</p>
+    <div class="app">
+        <div class="calculator">
+            <div class="header">
+                <h1>CALCULATOR</h1>
+                <button class="history-toggle" onclick="toggleHistory()" title="History">&#128337;</button>
+            </div>
+            <p class="author">Created by Krutika Mohanty</p>
 
-        <input type="text" id="display" readonly>
+            <input type="text" id="display" readonly placeholder="0">
 
-        <div class="buttons">
+            <div class="buttons">
+                <button class="clear" onclick="allClear()">AC</button>
+                <button class="clear" onclick="deleteLast()">DEL</button>
+                <button class="operator" onclick="appendValue('%')">%</button>
+                <button class="operator" onclick="appendValue('/')">÷</button>
 
-            <button class="clear" onclick="allClear()">AC</button>
-            <button class="clear" onclick="deleteLast()">DEL</button>
-            <button class="operator" onclick="appendValue('%')">%</button>
-            <button class="operator" onclick="appendValue('/')">÷</button>
+                <button onclick="appendValue('7')">7</button>
+                <button onclick="appendValue('8')">8</button>
+                <button onclick="appendValue('9')">9</button>
+                <button class="operator" onclick="appendValue('*')">×</button>
 
-            <button onclick="appendValue('7')">7</button>
-            <button onclick="appendValue('8')">8</button>
-            <button onclick="appendValue('9')">9</button>
-            <button class="operator" onclick="appendValue('*')">×</button>
+                <button onclick="appendValue('4')">4</button>
+                <button onclick="appendValue('5')">5</button>
+                <button onclick="appendValue('6')">6</button>
+                <button class="operator" onclick="appendValue('-')">−</button>
 
-            <button onclick="appendValue('4')">4</button>
-            <button onclick="appendValue('5')">5</button>
-            <button onclick="appendValue('6')">6</button>
-            <button class="operator" onclick="appendValue('-')">−</button>
+                <button onclick="appendValue('1')">1</button>
+                <button onclick="appendValue('2')">2</button>
+                <button onclick="appendValue('3')">3</button>
+                <button class="operator" onclick="appendValue('+')">+</button>
 
-            <button onclick="appendValue('1')">1</button>
-            <button onclick="appendValue('2')">2</button>
-            <button onclick="appendValue('3')">3</button>
-            <button class="operator" onclick="appendValue('+')">+</button>
+                <button onclick="appendValue('00')">00</button>
+                <button onclick="appendValue('0')">0</button>
+                <button onclick="appendValue('.')">.</button>
+                <button class="equal" onclick="calculate()">=</button>
+            </div>
 
-            <button onclick="appendValue('00')">00</button>
-            <button onclick="appendValue('0')">0</button>
-            <button onclick="appendValue('.')">.</button>
-            <button class="equal" onclick="calculate()">=</button>
+            <p class="keyboard-hint">Keyboard supported</p>
+        </div>
 
+        <div class="history-panel" id="historyPanel">
+            <div class="history-header">
+                <h2>History</h2>
+                <button class="clear-history" onclick="clearHistory()">Clear</button>
+            </div>
+            <div class="history-list" id="historyList">
+                <p class="empty">No calculations yet</p>
+            </div>
         </div>
     </div>
 
