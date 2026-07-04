@@ -87,20 +87,21 @@ body {
 
 .app {
     display: flex;
-    gap: 15px;
+    gap: 12px;
     align-items: flex-start;
 }
 
 .calculator {
     background: rgba(20, 20, 20, 0.95);
-    padding: 25px;
-    border-radius: 25px;
+    padding: 18px;
+    border-radius: 20px;
     border: 1px solid var(--glow-soft);
     box-shadow:
         0 0 15px var(--glow),
         0 0 40px var(--glow-soft);
     animation: fadeIn 0.5s ease;
     transition: border-color 0.4s, box-shadow 0.4s;
+    width: 320px;
 }
 
 @keyframes fadeIn {
@@ -117,24 +118,24 @@ body {
 h1 {
     text-align: center;
     color: var(--accent);
-    margin-bottom: 5px;
-    font-size: 22px;
+    margin-bottom: 3px;
+    font-size: 18px;
     transition: color 0.4s;
 }
 
 .header-actions {
     display: flex;
-    gap: 6px;
+    gap: 5px;
 }
 
 .icon-btn {
     background: none;
     border: 1px solid var(--glow-soft);
     color: var(--accent);
-    font-size: 14px;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
+    font-size: 12px;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
     cursor: pointer;
     transition: 0.3s;
 }
@@ -147,8 +148,8 @@ h1 {
 .author {
     text-align: center;
     color: var(--primary);
-    margin-bottom: 10px;
-    font-size: 13px;
+    margin-bottom: 8px;
+    font-size: 11px;
     transition: color 0.4s;
 }
 
@@ -156,8 +157,8 @@ h1 {
 .theme-picker {
     display: none;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-bottom: 10px;
     animation: slideDown 0.3s ease;
 }
 
@@ -171,8 +172,8 @@ h1 {
 }
 
 .theme-dot {
-    width: 28px;
-    height: 28px;
+    width: 22px;
+    height: 22px;
     border-radius: 50%;
     border: 2px solid transparent;
     cursor: pointer;
@@ -198,8 +199,8 @@ h1 {
 .scientific-panel {
     display: none;
     grid-template-columns: repeat(5, 1fr);
-    gap: 8px;
-    margin-bottom: 12px;
+    gap: 6px;
+    margin-bottom: 10px;
     animation: slideDown 0.3s ease;
 }
 
@@ -208,10 +209,10 @@ h1 {
 }
 
 .scientific-panel button {
-    height: 40px;
+    height: 32px;
     border: none;
-    border-radius: 10px;
-    font-size: 13px;
+    border-radius: 8px;
+    font-size: 11px;
     cursor: pointer;
     background: rgba(178, 102, 255, 0.15);
     color: var(--accent);
@@ -224,16 +225,112 @@ h1 {
     transform: translateY(-2px);
 }
 
+/* Currency Panel */
+.currency-panel {
+    display: none;
+    gap: 8px;
+    margin-bottom: 10px;
+    animation: slideDown 0.3s ease;
+}
+
+.currency-panel.open {
+    display: flex;
+    flex-direction: column;
+}
+
+.currency-row {
+    display: flex;
+    gap: 6px;
+}
+
+.currency-row input,
+.currency-row select {
+    height: 36px;
+    border: none;
+    border-radius: 8px;
+    padding: 0 10px;
+    font-size: 13px;
+    outline: none;
+    transition: 0.3s;
+}
+
+.currency-row input {
+    flex: 1;
+    background: #111;
+    color: white;
+    text-align: right;
+    min-width: 0;
+}
+
+.currency-row input::placeholder {
+    color: #555;
+}
+
+.currency-row select {
+    width: 75px;
+    background: rgba(178, 102, 255, 0.15);
+    color: var(--accent);
+    cursor: pointer;
+    font-weight: bold;
+    -webkit-appearance: none;
+    appearance: none;
+    text-align: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c77dff'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 6px center;
+}
+
+.swap-btn {
+    align-self: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 14px;
+    background: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.swap-btn:hover {
+    background: var(--primary-hover);
+    transform: rotate(180deg);
+}
+
+.convert-btn {
+    height: 36px;
+    border: none;
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--accent), var(--primary));
+    color: black;
+    transition: 0.3s;
+}
+
+.convert-btn:hover {
+    background: linear-gradient(135deg, var(--accent-hover), var(--accent));
+    transform: translateY(-2px);
+}
+
+.rate-info {
+    text-align: center;
+    color: #444;
+    font-size: 10px;
+}
+
 #display {
     width: 100%;
-    height: 70px;
+    height: 55px;
     border: none;
     outline: none;
-    border-radius: 15px;
-    margin-bottom: 20px;
+    border-radius: 12px;
+    margin-bottom: 12px;
     text-align: right;
-    padding: 15px;
-    font-size: 30px;
+    padding: 10px 14px;
+    font-size: 24px;
     background: #111;
     color: white;
     caret-color: transparent;
@@ -252,15 +349,15 @@ h1 {
 
 .buttons {
     display: grid;
-    grid-template-columns: repeat(4, 75px);
-    gap: 12px;
+    grid-template-columns: repeat(4, 68px);
+    gap: 8px;
 }
 
 button {
-    height: 65px;
+    height: 52px;
     border: none;
-    border-radius: 15px;
-    font-size: 20px;
+    border-radius: 12px;
+    font-size: 17px;
     cursor: pointer;
     background: #1f1f1f;
     color: white;
@@ -306,18 +403,18 @@ button:active {
 .keyboard-hint {
     text-align: center;
     color: #555;
-    font-size: 11px;
-    margin-top: 12px;
+    font-size: 10px;
+    margin-top: 10px;
 }
 
 /* History Panel */
 .history-panel {
     background: rgba(20, 20, 20, 0.95);
-    padding: 20px;
-    border-radius: 20px;
+    padding: 15px;
+    border-radius: 16px;
     border: 1px solid var(--glow-soft);
-    width: 260px;
-    max-height: 460px;
+    width: 200px;
+    max-height: 400px;
     display: flex;
     flex-direction: column;
     box-shadow: 0 0 15px var(--glow-soft);
@@ -329,12 +426,12 @@ button:active {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
 }
 
 .history-header h2 {
     color: var(--accent);
-    font-size: 18px;
+    font-size: 15px;
     transition: color 0.4s;
 }
 
@@ -342,11 +439,12 @@ button:active {
     background: none;
     border: 1px solid var(--glow-soft);
     color: var(--primary);
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 8px;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 6px;
     cursor: pointer;
     transition: 0.3s;
+    height: auto;
 }
 
 .clear-history:hover {
@@ -356,7 +454,7 @@ button:active {
 .history-list {
     overflow-y: auto;
     flex: 1;
-    max-height: 380px;
+    max-height: 350px;
 }
 
 .history-list::-webkit-scrollbar {
@@ -369,9 +467,9 @@ button:active {
 }
 
 .history-item {
-    padding: 10px 12px;
-    border-radius: 10px;
-    margin-bottom: 6px;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin-bottom: 5px;
     background: var(--glow-soft);
     cursor: pointer;
     transition: 0.2s;
@@ -387,12 +485,12 @@ button:active {
 
 .history-expr {
     color: #888;
-    font-size: 13px;
+    font-size: 11px;
 }
 
 .history-result {
     color: var(--accent);
-    font-size: 15px;
+    font-size: 13px;
     font-weight: bold;
     transition: color 0.4s;
 }
@@ -400,7 +498,7 @@ button:active {
 .empty {
     color: #444;
     text-align: center;
-    font-size: 13px;
+    font-size: 12px;
     margin-top: 30px;
 }
 
@@ -412,9 +510,9 @@ button:active {
     transform: translateX(-50%) translateY(20px);
     background: var(--primary);
     color: white;
-    padding: 10px 24px;
-    border-radius: 25px;
-    font-size: 14px;
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 13px;
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s ease;
@@ -427,15 +525,35 @@ button:active {
 }
 
 /* Responsive */
-@media (max-width: 750px) {
+@media (max-width: 600px) {
     .app {
         flex-direction: column;
         align-items: center;
     }
 
+    .calculator {
+        width: 300px;
+        padding: 15px;
+    }
+
+    .buttons {
+        grid-template-columns: repeat(4, 62px);
+        gap: 6px;
+    }
+
+    button {
+        height: 48px;
+        font-size: 16px;
+    }
+
+    #display {
+        height: 50px;
+        font-size: 22px;
+    }
+
     .history-panel {
-        width: 340px;
-        max-height: 200px;
+        width: 300px;
+        max-height: 180px;
         display: none;
     }
 
@@ -450,137 +568,15 @@ button:active {
     }
 
     .history-list {
-        max-height: 120px;
-    }
-}
-
-@media (max-width: 380px) {
-    .calculator {
-        padding: 15px;
-    }
-
-    .buttons {
-        grid-template-columns: repeat(4, 65px);
-        gap: 8px;
-    }
-
-    button {
-        height: 55px;
-        font-size: 17px;
-    }
-
-/* Currency Panel */
-.currency-panel {
-    display: none;
-    gap: 10px;
-    margin-bottom: 12px;
-    animation: slideDown 0.3s ease;
-}
-
-.currency-panel.open {
-    display: flex;
-    flex-direction: column;
-}
-
-.currency-row {
-    display: flex;
-    gap: 8px;
-}
-
-.currency-row input,
-.currency-row select {
-    height: 42px;
-    border: none;
-    border-radius: 10px;
-    padding: 0 12px;
-    font-size: 14px;
-    outline: none;
-    transition: 0.3s;
-}
-
-.currency-row input {
-    flex: 1;
-    background: #111;
-    color: white;
-    text-align: right;
-    min-width: 0;
-}
-
-.currency-row input::placeholder {
-    color: #555;
-}
-
-.currency-row select {
-    width: 85px;
-    background: rgba(178, 102, 255, 0.15);
-    color: var(--accent);
-    cursor: pointer;
-    font-weight: bold;
-    -webkit-appearance: none;
-    appearance: none;
-    text-align: center;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23c77dff'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 8px center;
-}
-
-.swap-btn {
-    align-self: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    font-size: 18px;
-    background: var(--primary);
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.swap-btn:hover {
-    background: var(--primary-hover);
-    transform: rotate(180deg);
-}
-
-.convert-btn {
-    height: 42px;
-    border: none;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    background: linear-gradient(135deg, var(--accent), var(--primary));
-    color: black;
-    transition: 0.3s;
-}
-
-.convert-btn:hover {
-    background: linear-gradient(135deg, var(--accent-hover), var(--accent));
-    transform: translateY(-2px);
-}
-
-.rate-info {
-    text-align: center;
-    color: #444;
-    font-size: 11px;
-}
-
-#display {
-        font-size: 24px;
-        height: 60px;
-    }
-
-    .history-panel {
-        width: 100%;
+        max-height: 100px;
     }
 
     .scientific-panel {
-        grid-template-columns: repeat(5, 1fr);
-        gap: 5px;
+        gap: 4px;
     }
 
     .scientific-panel button {
-        height: 35px;
-        font-size: 11px;
+        height: 28px;
+        font-size: 10px;
     }
 }
